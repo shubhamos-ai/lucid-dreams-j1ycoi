@@ -1,0 +1,42 @@
+# secrets
+.env
+.env.*
+*.token
+# big binaries live on HiPerGator or a shared drive, never in git
+*.mp4
+*.mov
+*.ply
+*.spz
+*.splat
+*.ckpt
+*.pth
+*.safetensors
+*.zip
+*.npz
+# tooling
+node_modules/
+.next/
+.next-preview/
+__pycache__/
+.venv/
+.DS_Store
+apps/quest/Library/
+apps/quest/Temp/
+apps/quest/Logs/
+apps/quest/obj/
+apps/quest/Build*/
+
+# fetched dream bundles (big)
+/dreams/
+apps/webxr/dist/
+.claude/
+
+# the small sample bundle is committed on purpose (everyone develops against it)
+!samples/**
+
+# raw site media before it's re-encoded for the web (big files stay out of git)
+# Court Side's bundle (290 MB, from Vishal); its hand models stay in git
+/apps/webxr/public/court/*
+!/apps/webxr/public/court/hands/
+# Court Side's players and stills for the film and the site's card (from the broadcast: never in git)
+/apps/web/public/media/court/

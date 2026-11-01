@@ -1,0 +1,273 @@
+# Atina: story, data and demo (light on AI compute)
+
+You own what the judges see and read, and the footage everything is built from. Most of this needs a phone, good
+judgment and writing, not heavy AI use, so it fits a small Codex plan: use Codex for the README and Devpost polish,
+not for long coding sessions. Read `AGENTS.md` first.
+
+## NOW (Sun 1:30 AM): all yours, no video (Ojasva is doing the video), in this order
+
+1. **Gemma, for the MLH "Best Use of Gemma" prize.** The prize is Gemma (Google's open model), not Gemini, and
+   nothing in Lucid Dreams runs on Gemma yet. Run it on **your own laptop** with Ollama (not on Ojasva's Mac):
+   - Install Ollama (ollama.com) and pull Gemma 4 with image input: `ollama pull gemma4:e4b` (about 7 GB; use
+     `gemma4:12b` if your laptop has 24 GB of memory or more). Check it answers: `ollama run gemma4:e4b "hi"`.
+   - Give the lesson-plan writer a Gemma path in `apps/web/lib/bridge/gemini.ts`: when `GEMMA_MODEL` is set (e.g.
+     `gemma4:e4b`), call Ollama's `POST ${OLLAMA_URL:-http://127.0.0.1:11434}/api/chat` with `stream: false`,
+     `format` = the file's existing `SCHEMA` (Ollama's structured output), the `SYSTEM` rules as the system message,
+     and the user text plus 6-8 JPEG frames (base64 `images`) cut with ffmpeg evenly across the clip window (an
+     avatar's photo for avatars). Say each frame's time in the text so steps land on real moments. Parse the JSON,
+     run `clean()`, and record `model` as the Gemma tag. In `lib/bridge/experience.ts` let plans run when
+     `GEMINI_API_KEY` or `GEMMA_MODEL` is set (keep the realism check and Watch me try on Gemini only), and let
+     `scripts/check-intents.ts` run with `GEMMA_MODEL` too.
+   - Run the 40-sentence intent check on Gemma: `GEMMA_MODEL=gemma4:e4b npm --prefix apps/web run test:intents`.
+     Note the score and the misses.
+   - Write Gemma plans for the public replays (dance-01, golf-01, taichi-01, guitar-01, jump-shot-hq, lebron-shot):
+     their `preview.mp4` and `dream.json` are on the public link (`https://getluciddreams.vercel.app/dreams/<id>/...`).
+     Save them as `demo/gemma-plans/<id>.json` and compare each with the hand-written plan (same URL,
+     `experience.json`). Tell Ojasva which ones are better; his Claude puts those in the library with `"source"`
+     saying Gemma wrote them.
+   - **The prize rules say: name the Gemma model in the README.** Add a short Gemma line to the root README.md (the
+     exact model, Gemma 4 E4B via Ollama, and what it writes). Ian is rewriting the README: tell him, keep the line.
+   - Results in `docs/gemma-qa.md` (setup, score, plan comparison) and a Status log line. Then Ojasva ticks "Best Use
+     of Gemma (MLH)" on the Devpost.
+   - Optional, only if the rest is done: Gemma live for Make one, by pointing the bridge's `OLLAMA_URL` at your
+     laptop through a Cloudflare tunnel (ask Ojasva first).
+2. **Finals slides and speaker notes** (Monday 10:15 AM, top 10 present live on stage). About 7 slides: the
+   problem, the one sentence, what it does (learn, play, talk), how a video becomes a person, why the tech is new
+   (4DAnyone Aug 2026, LHM++, UIKA), measured numbers, honesty and consent (Reality check, AI voice, legends
+   labelled), team. Real images only: `apps/web/public/media/` has them. Numbers and wording: `demo/devpost.md`.
+   Speaker notes in plain spoken sentences. Link or PDF in `demo/`.
+3. **Live run of show** in `demo/live.md`: who says what, timed to the slot, the links in order, and what to do
+   when something breaks (the laptop at /kiosk, a phone hotspot, a recorded clip). Plus a one-page judge handout
+   with the link https://getluciddreams.vercel.app and a QR code to it.
+4. **Judge Q&A** (`demo/judges.md`) is from Friday (DiGS-Avatar, `[verified value]` blanks). Rewrite it from what's
+   true now (`demo/devpost.md`, the AGENTS.md Status log): how a dream is made, why it's recent, what's real vs
+   imagined, why public figures, consent, what runs where, what we haven't measured yet. Short answers someone can
+   say out loud.
+5. **Consent and credits check.** `demo/consent.md` records Vishal's yes (likeness and AI voice) and Ian's grandma's
+   family's yes (shown and heard). `demo/credits.md` and `apps/web/public/media/CREDITS.md` cover everything added
+   since Friday: the Federer photos, the tennis motion clips, the Quest 3S model (OG_MATTER, CC BY 4.0), LHM++ and
+   UIKA licences, Vishal's clips.
+6. **The website on your real iPhone** (Safari) at https://getluciddreams.vercel.app, top to bottom: every video
+   plays, the 3D parts run, the Technology visuals drag, Make one opens. Issues with screenshots in `docs/web-qa.md`.
+7. **README from a fresh clone.** On your laptop: clone the repo, follow the README's run steps exactly, and fix or
+   report every step that fails (the Open Source judges will try the same).
+8. **Your branch** `atina/demo-readiness-accessibility` (bundle validator, caption presets) never reached main:
+   rebase it on main, run `pipeline/` tests, make the validator match today's contract (SPZ-only frames since Sat
+   2 AM; joints.json, props.json, experience.json, private, talk are all optional), open a PR. Ojasva's Claude runs it
+   over `dreams/` on his Mac.
+
+## ADDED (Fri 11:40 PM): the showcase is set
+
+`demo/showcase.md` has the five demo moments (piano lesson side by side, LeBron in your driveway, chess with the
+legends, someone you've lost, you perfected). Build the video script on exactly those five, in that order, about
+30 s each. Credits to add to `demo/credits.md`: Jason Han's piano videos (Wikimedia Commons, CC BY-SA 4.0,
+"JMC, Han (Jason)"), Poly Haven environments (CC0, list in `apps/webxr/public/places/CREDITS.md` once it lands).
+
+## ADDED (Fri 11 PM): the lesson has a ball and a hoop now
+
+LeBron's lesson will have the real ball moving with his hands and a regulation hoop in the room (rim 3.05 m), and
+the chess legends will sit at the table and move their own pieces. Plan the video shots around those two moments:
+the ball leaving his hands toward the hoop in your room, and Fischer reaching across the board.
+
+## HANDED OVER (Sat 12:35 AM)
+
+Thank you: the capture kit, captions, restoration and the demo drafts are all in. Your remaining items (credits,
+README, Devpost, video edit, slides, judge Q&A, family moment) moved to Ian so you can rest; his brief lists them.
+If you're still around, the most useful single thing is reviewing his Devpost and README for clarity before Sunday.
+
+## NEXT (Fri 10:45 PM): sources, credits, and the three demo moments
+
+What's processing tonight: LeBron's jump shot (a clip Ojasva supplied; demo only, never in the repo), two Pexels jump
+shots, Buster Keaton in "Neighbors" (1920, public domain), possibly Josephine Baker (1928, public domain), and Bobby
+Fischer and Magnus Carlsen avatars (licensed photos) once Meta's DINOv3 weights arrive.
+
+1. **`demo/credits.md`:** one line per source with its link and license. Keaton and Baker films (Wikimedia Commons,
+   public domain); Fischer (W. Punt / Anefo, Nationaal Archief, CC0); Carlsen (Wikimedia user Autopilot, CC BY-SA 3.0);
+   the Pexels clips (Pexels license); the LeBron clip (supplied for a non-commercial demo, not redistributed). Every
+   open-source model too. This is the MLH Open Source prize and the judges' first consent question.
+2. **Your restoration test has perfect footage now:** the Keaton and Baker films are real 1920s film (B&W, grain,
+   flicker). Ojasva can copy you a 10-second cut of each. Run `restore.py` on them and compare.
+3. **Video script v1** (`demo/video.md`), three moments, about 40 s each:
+   - LeBron teaching you his jump shot in your room (the lesson).
+   - Buster Keaton, 1920, standing in your living room (old footage brought back).
+   - The family moment (your consented family photo or video).
+   Then how it works and the team.
+4. **Judge Q&A** (`demo/judges.md`): add "Why are there public figures?" Answer: demo only, from their real footage
+   or freely licensed photos, never their voice, always labelled, never implied endorsement.
+
+## NOW (Fri 10:10 PM): the hero demo is a lesson
+
+The product is one line (AGENTS.md, top): any photo or video + one sentence of what you want to do with that person
+-> they're in your room doing it with you. The demo should show exactly that, three times:
+
+1. **The hero clip: a teacher.** A consenting teammate teaching one simple thing to camera, 5-8 s, full body, still
+   camera, good light: a basic guitar strum, a dance step or a free-throw form. Shoot it tonight. Drop it into
+   `~/Downloads/lucid-clips/` on Ojasva's Mac with a `.txt` of the same name holding the intent, e.g.
+   `vishal-strum.mp4` + `vishal-strum.txt` containing `teach me this strum`. It comes back as a lesson.
+2. **The family moment:** the photo + "I just want to sit with her" (companion), once the written yes is in.
+3. **The fun one:** chess against the legends (labelled as the engine, as always).
+
+Devpost and the video script should open on the sentence: "Show it anyone. Tell it what you want to do with them."
+Captions and old-footage restoration (below) stay yours, after the hero clip.
+
+## Your big chunk
+
+| Piece | Done means |
+| --- | --- |
+| Capture guide + clips | Shoot the test and hero clips to the rules in `AGENTS.md`: 4K if possible, portrait 9:16, 5-10 s, one person, tripod, bright even light, fast shutter, plain background. Teammates doing moves (a jumper, a dance, a boxing combo). Name them clearly and hand them to Ojasva |
+| Steph Curry clips | Find the cleanest full-body, still-camera workout clips; crop to portrait; note the source |
+| Family moment | One teammate's family photo or video (an old photo of a grandparent works). **Get the family's consent in writing**, even a text message, and keep it in `demo/consent.md` |
+| Devpost | Title, tagline, description (what it does, how we built it, the new tech and why it's recent, challenges, what's next), built-with list, tracks: overall, Best AI Hack, Best Design, Best Social Impact, MLH Gemini, MLH Open Source |
+| README + LICENSE | Public-repo README: what it is, demo GIF, how it works, credits to every open-source model, MIT license |
+| Demo video (3 min max) | Script, shot list, edit. Open on the family moment, then the wow (a person appearing in the room), then how it works with real numbers, then the team |
+| In-headset UI design | Design the Quest panels to match Raami's web app: playback controls (play, freeze, 0.25x/0.5x/1x, scrub), the library of dreams, the "seen vs imagined" toggle, coaching captions. Big, calm, readable at arm's length. Mockups in Figma (or even clean slides) with exact sizes and colours; Ian builds them |
+| Slides + judge prep | A short deck with the fidelity numbers; a list of likely judge questions with answers (theme, consent, what's generated vs real, limits) |
+
+## Milestones
+
+| When | Done |
+| --- | --- |
+| Fri 10 PM | 3 test clips shot and handed to Ojasva; family photo picked and consent asked |
+| Sat 10 AM | In-headset UI mockups handed to Ian |
+| Sat noon | Hero clips shot; Devpost draft; video script |
+| Sat 8 PM | README done; slides drafted |
+| Sun 1 PM | Video edited; Devpost final. **Submit by 3 PM** |
+
+## Talk to
+
+- Ojasva: which clips work best (he'll tell you what the pipeline needs more of).
+- Raami: screenshots, copy, and the web app's look so the headset UI matches it.
+- Ian: what the Quest can show (panel sizes, text sizes) before you design.
+- Everyone: two lines each about what they built, for Devpost.
+
+## Work without waiting
+
+- **Clips:** shoot to the capture guide (landscape is fine now: the pipeline frames the person automatically) and
+  AirDrop them to Ojasva's Mac into `~/Downloads/lucid-clips/`. That's all: they process by themselves.
+- **Design tokens** for the headset UI are at the top of `apps/web/app/globals.css` (Raami's). Match them exactly.
+- Most of your list is writing and design, so it fits your Codex plan: use Codex to polish text, not to generate it.
+
+## Your backlog (ordered)
+
+1. Shoot 3-5 clips tonight (teammates doing moves) and AirDrop them in.
+2. Family moment: pick the photo or video, get consent in writing, save it in `demo/consent.md`.
+3. In-headset UI mockups for Ian (controls, library, reality toggle, captions), with exact sizes.
+4. Devpost draft in `demo/devpost.md`: what it does, how we built it, the new tech and why it's recent
+   (4DAnyone Aug 2026, DiGS-Avatar 2026), challenges, what's next. Leave blanks for numbers.
+5. README draft in `demo/README-draft.md` with the credits list (4DAnyone, DiGS-Avatar, gsplat, Spark, three.js,
+   Unity Gaussian Splatting, NLF, rembg, GVHMR, BiRefNet, SMPL-X and their licenses).
+6. Video: script + shot list in `demo/video.md` (family moment first, then the wow, then how it works, then the team).
+7. Judge Q&A in `demo/judges.md`: theme fit, consent, what's real vs imagined, limits, what's next.
+8. Slides with placeholders for the numbers (PSNR, % seen, Gaussians, time per dream).
+
+## Working decisions — Friday, October 23
+
+- First-milestone preparation lives in `demo/README.md`, `demo/capture-guide.md`, `demo/clips.md` and
+  `demo/consent.md`. Prioritize three simple, sharply recorded teammate movements; this batch does not need
+  public-figure footage or GPU work from Atina.
+- Keep clip capture, consent, transfer and processing as separate states. Planned shots are not delivered clips.
+  The Friday milestone remains open until three handoffs, a family asset selection and a sent consent request
+  are confirmed. A pending consent request does not authorize processing or display.
+- Store private media and written consent evidence outside this public repository. `demo/consent.md` holds
+  anonymous record IDs, permission scope, status and private evidence labels; it does not expose family messages.
+- No app code, shared contracts or pipeline settings are changed by this preparation work. Ian receives UI
+  designs later; Ojasva remains the contact for automatic intake and processing results.
+
+## Update (Fri ~9 PM): kit looks great, now the real things
+
+The capture and consent kit is exactly right. The Friday milestone now is the physical part: three clips AirDropped
+into `~/Downloads/lucid-clips/` on Ojasva's Mac, and the family consent request actually sent.
+
+New thing for the story: `?mode=chess` in the WebXR app (`https://<mac>:5180/?mode=chess` on the Quest) is a
+side mode: a real-size chess board on your table, pieces moved with your bare hands, an engine opponent from club
+level up to Fischer's and Carlsen's peak ratings (labelled "Stockfish at X's peak rating. Not affiliated." Keep that
+wording anywhere it appears). In the video it's a 5-10 second "and it's not just people" beat after the main demo;
+in Devpost, one line under "what's next / also built". Never say or imply we have the real players.
+
+## Your new big chunk (Fri 9 PM): two pieces of the product nobody else owns
+
+The milestone clips still come first (30 minutes tonight). After that these two are yours end to end. Both run on
+your Mac with no GPU account and very little code, and both are things the demo really needs.
+
+### 1. Their words, floating beside them (captions)
+
+When someone appears in the room and speaks, their words should appear beside them as quiet captions. It's the most
+emotional detail in the family moment, and it makes the product work for deaf and hard-of-hearing people (Best
+Social Impact).
+
+- Tool: [whisper.cpp](https://github.com/ggml-org/whisper.cpp) (`brew install whisper-cpp`; model `ggml-large-v3-turbo`,
+  runs on the Mac GPU through Metal). Input: a bundle's `voice.m4a` (Demucs-separated voice) or `audio.m4a`.
+- Write `pipeline/lucid/captions.py`: `python -m lucid.captions dreams/<id>` converts the voice to 16 kHz mono WAV with
+  ffmpeg, runs whisper with word timestamps, then cleans the result:
+  - at most 2 lines of 42 characters per cue, and 1-6 s on screen;
+  - drop non-speech tags (`[Music]`, `(laughs)`);
+  - drop any cue over near-silence (whisper invents "Thank you." on silence; check the audio level under each cue).
+  It writes `captions.vtt` (WebVTT, times in the clip's own time) into the bundle and adds `"captions": "captions.vtt"`
+  to `dream.json`. That field is in the contract now (AGENTS.md).
+- Test on 3 clips that have real speech (a teammate talking to camera works). Read every caption against the audio
+  and fix the cleaning rules until none are wrong.
+- Ojasva wires the WebXR viewer to show them; Raami shows them on the dream page.
+- Done means: `captions.py` plus a short test with a tiny WAV in `pipeline/tests/`, three bundles with correct captions,
+  and two lines in `demo/README.md` on how to run it.
+
+### 2. Old footage, restored before it goes in
+
+The pitch is "an old video of someone you love". Real old home video is 480p, interlaced, noisy and 4:3, and the
+pipeline wants a sharp 1080p portrait clip. Find out how much a restoration pass helps, and ship it if it does.
+
+- Write `pipeline/lucid/restore.py`: `python -m lucid.restore in.mp4 out.mp4`. It runs:
+  1. ffmpeg deinterlace (`bwdif`) and a light denoise (`hqdn3d=2:1:3:3`);
+  2. a 4x upscale with [Real-ESRGAN ncnn](https://github.com/xinntao/Real-ESRGAN-ncnn-vulkan) (macOS binary, Metal via
+     MoltenVK; model `realesrgan-x4plus`), frame by frame;
+  3. reassemble at the original fps with the original audio.
+  **No face-restoration models** (GFPGAN, CodeFormer): they change who the person looks like, and for this product
+  that's the one thing we can't do.
+- Test footage: a public-domain home movie from the Prelinger Archives on archive.org (note the item URL in
+  `demo/clips.md`), plus a teammate filmed on purpose at 480p.
+- A/B test: put the plain and the restored version of the same clip through the pipeline (drop both into
+  `~/Downloads/lucid-clips/` on Ojasva's Mac). Compare the two dreams side by side in the viewer, and compare the
+  sharpness and PSNR numbers in each `recon-*.json`.
+- Done means: `restore.py`, a side-by-side image for the slides, and a recommendation: should `prep_clip.py` call it
+  automatically for inputs under 720p? If yes, add that call yourself.
+
+### Then, Saturday, as before
+
+Devpost draft (noon), video script (noon), README with credits (8 PM; add whisper.cpp and Real-ESRGAN, both MIT/BSD),
+slides, judge Q&A. Use Codex for the two scripts above; they're each well under 200 lines.
+
+Family photo, once the written yes is in: AirDrop it into `~/Downloads/lucid-photos/` on Ojasva's Mac, named the way
+it should appear (`grandma-rose.jpg` -> "Grandma Rose"). It becomes an avatar with a breathing, blinking idle by itself.
+Only photos with consent recorded in `demo/consent.md` go in that folder.
+
+## Caption implementation decisions
+
+- Prioritize the Python caption generator and tests before Quest UI mockups, per Atina's approval. Only
+  `pipeline/lucid/captions.py`, caption tests/fixture and Atina's documents are in this implementation's scope.
+  Restoration, player code, export wiring and shared contracts remain untouched.
+- Use whisper.cpp JSON word-segment offsets in integer milliseconds; preserve leading silence and never apply
+  `startS` twice. Audio must already be on the bundle clock. Use `voice` before `audio`, with a missing-file fallback.
+- Enforce two 42-character lines and non-overlapping 1–6-second cues. If speech cannot fit those constraints,
+  fail with existing captions preserved rather than estimate new word times or silently lose spoken words.
+- Keep model downloads explicit and outside the repository. Standard-library tests use synthetic audio and fake
+  tool processes; actual Whisper, AAC decoding and three human-reviewed speech bundles are separate acceptance checks.
+- The existing WebXR caption parser does not decode VTT entities; Ojasva owns that display edge case. Standard
+  WebVTT escaping stays in the generator. Native Unity caption support stays with Ian.
+- Atina approved publishing the caption implementation after 52 passing tests and a real speech memo review,
+  including natural sentence/phrase segmentation. The full three-bundle and viewer acceptance checklist remains
+  open; see `demo/README.md` for the runbook. Restoration is tracked separately below.
+
+## Standalone restoration implementation decisions
+
+- Atina approved `pipeline/lucid/restore.py` and its tests as a manual preprocessing tool, with ffmpeg bwdif
+  in send-frame mode, light hqdn3d denoising and the real `realesrgan-x4plus` 4x model. No shared pipeline or
+  player files are modified; `prep_clip.py` and automatic integration remain out of scope.
+- Preserve source rational frame rate, frame count, timing, display aspect and audio packet content/offsets.
+  Reject unsupported input rather than silently retime, crop, rotate, tone-map, convert audio or overwrite files.
+- The official macOS native binary runs on Atina's Apple GPU. The three-second synthetic run completed in
+  9.222 s; 80 total tests passed including both real GPU tools and real ffmpeg timing/audio cases.
+- Quality results are mixed: SSIM and edge sharpness rose, PSNR fell, and the fine test pattern shows invented
+  texture. These are engineering results, not proof of better people or reconstruction. Keep restoration manual
+  until matched real-footage/3D A/B tests with Ojasva justify its use. No HiPerGator jobs are submitted by Atina.
+- All models and generated media/comparisons stay outside the repo. Implementation is awaiting Atina's review;
+  no commit or push is authorized yet. Runbook, metrics, limitations and the remaining acceptance gate are in
+  `demo/README.md`.
